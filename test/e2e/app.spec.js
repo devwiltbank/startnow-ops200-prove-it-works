@@ -38,9 +38,25 @@ describe('End to End Tests', () => {
                 expect(headerText).to.not.be.null;
                 expect(headerText).to.equal('Mortgage Calculator');
             });
-    });
+    }).timeout(6500);
 
 
-// make more test here like the one above
+    // make more test here like the one above
+
+    it('should correctly calculate mortgage', () => {
+    pageObject
+    .wait()
+    .type('input[name=principal]', 300000)
+    .type('input[name=interestRate]', 3.75)
+    .type('input[name=loanTerm]', 30)
+    .select('select[name=period]', 12)
+    .click('button#calculate')
+    .wait('#output')
+    .evaluate(() => document.querySelector('#output').innerText)
+    .then((outputText) => {
+        expect(outputText).to.equal('$1389.35');
+    })
+}).timeout(6500);
 
 })
+
